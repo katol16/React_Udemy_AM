@@ -46,7 +46,54 @@ console.log("App is running!");
 // var template = React.createElement("p", null, "This is JSX from app.js! is it change?");
 
 // Jak już mamy babela to zadziała to:
-var template = <p>Indecision app!</p>;
+
+var app = {
+    title: 'Indecision App',
+    subtitle: 'Choose your task',
+    options: ['option 1','option 2']
+};
+// Pamiętaj, że musi to być oplecione w jeden element
+var template = (
+    <div>
+        <h1>{app.title}</h1>
+        {app.subtitle && <p>{app.subtitle}</p>}
+        <p>{app.options.length > 0 ? 'Your options' : 'no options'}</p>
+    </div>
+);
+
+var user = "Karol";
+var userObj = {
+    name: 'Karol V',
+    age: 27,
+    location: 'Kraków'
+};
+
+function getLocation(location) {
+    if (location) {
+        return <p>Location: {location}</p>;
+    }
+};
+
+var challengeTemplate = (
+    <div>
+        Ze zmienej
+        <h3>{user}</h3>
+        Z obiektu
+        {/*Pamiętaj, że w {} mamy miejsce na JavaScript EXPRESSIONS, a nie JavaScript statement, dlatego nie możemy użyć normlanego if {} else {}. Dlatego radzimy sobie z tym w inny sposóc*/}
+        {/*Poniżej załatwimy problem za pomocą takiego zapisu*/}
+        <h1>{userObj.name ? userObj.name : 'Unknown'}</h1>
+
+        {/*Poniżej jeszcze jeden sposób "Conditional rendering".*/}
+        {/*Na początek mała Notatka. */}
+        {/*true && "some text", zwróci "some text", czyli drugą wartość.*/}
+        {/*natomiast false && 'some text', zwróci peirwszą wartośc, czyli false*/}
+        {(userObj.age && userObj.age > 18) && <p> Age: {userObj.age}</p>  }
+
+        {/*Pamiętaj, że w {} mamy miejsce na JavaScript EXPRESSIONS, a nie JavaScritp statement, dlatego nie możemy użyć normlanego if {} else {}. Dlatego radzimy sobie z tym w inny sposóc*/}
+        {/*Za pomocą poniższej funkcji możemy stworzyć "conditional rendering"*/}
+       {getLocation(userObj.location)}
+    </div>
+);
 
 // element z HTML'a
 var appRoot = document.getElementById("app");

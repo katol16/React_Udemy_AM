@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Kurs React Udemy "The Complete React Web Developer Course (with Redux)"
 //
@@ -47,10 +47,72 @@ console.log("App is running!");
 // var template = React.createElement("p", null, "This is JSX from app.js! is it change?");
 
 // Jak już mamy babela to zadziała to:
-var template = React.createElement(
-  "p",
-  null,
-  "Indecision app!"
+
+var app = {
+    title: 'Indecision App',
+    subtitle: 'Choose your task',
+    options: ['option 1', 'option 2']
+    // Pamiętaj, że musi to być oplecione w jeden element
+};var template = React.createElement(
+    'div',
+    null,
+    React.createElement(
+        'h1',
+        null,
+        app.title
+    ),
+    app.subtitle && React.createElement(
+        'p',
+        null,
+        app.subtitle
+    ),
+    React.createElement(
+        'p',
+        null,
+        app.options.length > 0 ? 'Your options' : 'no options'
+    )
+);
+
+var user = "Karol";
+var userObj = {
+    name: 'Karol V',
+    age: 27,
+    location: 'Kraków'
+};
+
+function getLocation(location) {
+    if (location) {
+        return React.createElement(
+            'p',
+            null,
+            'Location: ',
+            location
+        );
+    }
+}
+
+var challengeTemplate = React.createElement(
+    'div',
+    null,
+    'Ze zmienej',
+    React.createElement(
+        'h3',
+        null,
+        user
+    ),
+    'Z obiektu',
+    React.createElement(
+        'h1',
+        null,
+        userObj.name ? userObj.name : 'Unknown'
+    ),
+    userObj.age && userObj.age > 18 && React.createElement(
+        'p',
+        null,
+        ' Age: ',
+        userObj.age
+    ),
+    getLocation(userObj.location)
 );
 
 // element z HTML'a
