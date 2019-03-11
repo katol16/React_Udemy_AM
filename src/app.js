@@ -47,13 +47,13 @@ console.log("App is running!");
 
 // Jak już mamy babela to zadziała to:
 
-var app = {
+const app = {
     title: 'Indecision App',
     subtitle: 'Choose your task',
     options: ['option 1','option 2']
 };
 // Pamiętaj, że musi to być oplecione w jeden element
-var template = (
+const template = (
     <div>
         <h1>{app.title}</h1>
         {app.subtitle && <p>{app.subtitle}</p>}
@@ -61,8 +61,8 @@ var template = (
     </div>
 );
 
-var user = "Karol";
-var userObj = {
+const user = "Karol";
+const userObj = {
     name: 'Karol V',
     age: 27,
     location: 'Kraków'
@@ -74,7 +74,7 @@ function getLocation(location) {
     }
 };
 
-var challengeTemplate = (
+const challengeTemplate = (
     <div>
         Ze zmienej
         <h3>{user}</h3>
@@ -96,7 +96,7 @@ var challengeTemplate = (
 );
 
 // element z HTML'a
-var appRoot = document.getElementById("app");
+const appRoot = document.getElementById("app");
 
 // Teraz wyświetlimy naszego template'a
 ReactDOM.render(template, appRoot);
