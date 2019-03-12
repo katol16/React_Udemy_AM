@@ -50,28 +50,49 @@ console.log("App is running!");
 const app = {
     title: 'Indecision App',
     subtitle: 'Choose your task',
-    options: ['option 1','option 2']
+    options: []
 };
+
+const onFormSubmit = (e) => {
+    e.preventDefault();
+
+    const option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+    }
+}
+
 // Pamiętaj, że musi to być oplecione w jeden element
 const template = (
     <div>
         <h1>{app.title}</h1>
         {app.subtitle && <p>{app.subtitle}</p>}
         <p>{app.options.length > 0 ? 'Your options' : 'no options'}</p>
+        <ol>
+            <li>1</li>
+            <li>2</li>
+        </ol>
+        <form onSubmit={onFormSubmit}>
+            <ipnut type="text" name="option" />
+            <button>Add Option</button>
+        </form>
     </div>
 );
+
+
+
+function getLocation(location) {
+    if (location) {
+        return <p>Location: {location}</p>;
+    }
+};
 
 const user = "Karol";
 const userObj = {
     name: 'Karol V',
     age: 27,
     location: 'Kraków'
-};
-
-function getLocation(location) {
-    if (location) {
-        return <p>Location: {location}</p>;
-    }
 };
 
 const challengeTemplate = (
@@ -97,7 +118,4 @@ const challengeTemplate = (
 
 // element z HTML'a
 const appRoot = document.getElementById("app");
-
-// Teraz wyświetlimy naszego template'a
 ReactDOM.render(template, appRoot);
-
