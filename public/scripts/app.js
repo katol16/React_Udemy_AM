@@ -51,52 +51,100 @@ console.log("App is running!");
 var app = {
     title: 'Indecision App',
     subtitle: 'Choose your task',
-    options: ['option 1', 'option 2']
+    options: []
 };
-// Pamiętaj, że musi to być oplecione w jeden element
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        'p',
-        null,
-        app.subtitle
-    ),
-    React.createElement(
-        'p',
-        null,
-        app.options.length > 0 ? 'Your options' : 'no options'
-    ),
-    React.createElement(
-        'ol',
+
+var onMakeDecision = function onMakeDecision() {
+    var randomNum = Math.floor(Math.random() * app.options.length);
+    var option = app.options[randomNum];
+    alert(option);
+};
+
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
+
+    var option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+        // Poniższy kod jest do wyczyszenia inputa, po wpisaniu i klikneiciu w przycisk "Add Option"
+        e.target.elements.option.value = '';
+        render();
+    }
+};
+
+// element z HTML'a
+var appRoot = document.getElementById("app");
+
+var onRemoveAll = function onRemoveAll() {
+    app.options.length = 0;
+    render();
+};
+
+// widok będziemy przechowywać w zmiennej, ktora jest funkcją i odpowiednio wywyoływać w dobrym momencie.
+// Oczywiście, to jest poglądowe, bo tak docelowo to React, sam robi takie rzeczy za nas. TO ma zademonstrować jak React działa
+var render = function render() {
+    // Pamiętaj, że musi to być oplecione w jeden element
+    var template = React.createElement(
+        'div',
         null,
         React.createElement(
-            'li',
+            'h1',
             null,
-            '1'
+            app.title
+        ),
+        app.subtitle && React.createElement(
+            'p',
+            null,
+            app.subtitle
         ),
         React.createElement(
-            'li',
+            'p',
             null,
-            '2'
-        )
-    ),
-    React.createElement(
-        'form',
-        { onSubmit: onFormSubmit },
-        React.createElement('ipnut', { type: 'text', name: 'option' }),
+            app.options.length > 0 ? 'Your options' : 'no options'
+        ),
+        React.createElement(
+            'p',
+            null,
+            app.options.length
+        ),
         React.createElement(
             'button',
+            { disabled: app.options.length === 0, onClick: onMakeDecision },
+            'What should i do'
+        ),
+        React.createElement(
+            'button',
+            { onClick: onRemoveAll },
+            'Remove all'
+        ),
+        React.createElement(
+            'ol',
             null,
-            'Add Option'
+            app.options.map(function (option) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    option
+                );
+            })
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: onFormSubmit },
+            React.createElement('input', { type: 'text', name: 'option' }),
+            React.createElement(
+                'button',
+                null,
+                'Add Option'
+            )
         )
-    )
-);
+    );
+
+    ReactDOM.render(template, appRoot);
+};
+// Poniżej pierwsze wywołąnie widoku
+render();
 
 function getLocation(location) {
     if (location) {
@@ -139,7 +187,3 @@ var challengeTemplate = React.createElement(
     ),
     getLocation(userObj.location)
 );
-
-// element z HTML'a
-var appRoot = document.getElementById("app");
-ReactDOM.render(template, appRoot);

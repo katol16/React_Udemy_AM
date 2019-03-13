@@ -53,6 +53,12 @@ const app = {
     options: []
 };
 
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    const option = app.options[randomNum];
+    alert(option);
+}
+
 const onFormSubmit = (e) => {
     e.preventDefault();
 
@@ -60,27 +66,50 @@ const onFormSubmit = (e) => {
 
     if (option) {
         app.options.push(option);
+        // Poniższy kod jest do wyczyszenia inputa, po wpisaniu i klikneiciu w przycisk "Add Option"
+        e.target.elements.option.value = '';
+        render();
     }
 }
 
+// element z HTML'a
+const appRoot = document.getElementById("app");
+
+const onRemoveAll = () => {
+    app.options.length = 0;
+    render();
+}
+
+// widok będziemy przechowywać w zmiennej, ktora jest funkcją i odpowiednio wywyoływać w dobrym momencie.
+// Oczywiście, to jest poglądowe, bo tak docelowo to React, sam robi takie rzeczy za nas. TO ma zademonstrować jak React działa
+const render = () => {
 // Pamiętaj, że musi to być oplecione w jeden element
-const template = (
-    <div>
+    const template = (
+        <div>
         <h1>{app.title}</h1>
-        {app.subtitle && <p>{app.subtitle}</p>}
-        <p>{app.options.length > 0 ? 'Your options' : 'no options'}</p>
-        <ol>
-            <li>1</li>
-            <li>2</li>
-        </ol>
-        <form onSubmit={onFormSubmit}>
-            <ipnut type="text" name="option" />
-            <button>Add Option</button>
-        </form>
+    {app.subtitle && <p>{app.subtitle}</p>}
+    <p>{app.options.length > 0 ? 'Your options' : 'no options'}</p>
+    <p>{app.options.length}</p>
+    <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should i do</button>
+    <button onClick={onRemoveAll}>Remove all</button>
+    <ol>
+        {
+            app.options.map((option) => {
+                return <li key={option}>{option}</li>
+            })
+        }
+    </ol>
+    <form onSubmit={onFormSubmit}>
+        <input type="text" name="option" />
+        <button>Add Option</button>
+    </form>
     </div>
-);
+    );
 
-
+    ReactDOM.render(template, appRoot);
+}
+// Poniżej pierwsze wywołąnie widoku
+render();
 
 function getLocation(location) {
     if (location) {
@@ -116,6 +145,3 @@ const challengeTemplate = (
     </div>
 );
 
-// element z HTML'a
-const appRoot = document.getElementById("app");
-ReactDOM.render(template, appRoot);
