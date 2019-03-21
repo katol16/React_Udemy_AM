@@ -1,32 +1,38 @@
 // Poniżej przykłąd demonstrujący działanie bind, keidy tego używamy itd.
-const obj = {
-    name: 'Vikram',
-    getName() {
-        return this.name;
-    }
-};
+// const obj = {
+//     name: 'Vikram',
+//     getName() {
+//         return this.name;
+//     }
+// };
 
 // Poniżej zadziałą - ponieważ, ze kontekst w jakim jest szukana nasza zmeinna jest dobry. this wskazuje na obiekt
-console.log('z obiektu ' + obj.getName());
+// console.log('z obiektu ' + obj.getName());
 
 // const getName = obj.getName;
 // To poniżej nie zadziała. Bo tworząc funkcję w zmiennej, ustalamy jej inny kontekst. this, w tym moemncie bedzie wskazywało na obiekt globlany, a nie na obiekt
 // Dlatego taki problem naprawiamy za pomocą bind() , w nawisach podajemy obiekt, na któ©y kieruje słowo kluczowe this
-const getName = obj.getName.bind(obj);
-console.log('ze zmiennej ' + getName());
+// const getName = obj.getName.bind(obj);
+// console.log('ze zmiennej ' + getName());
 
 class IndecisionApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            options : ['pierwsza1', 'druga', 'trzecia']
+        }
+    }
+
     render() {
         const title = 'Indecision';
         const subtitle = 'Put your life in hands of computer';
-        const options = ['pierwsza1', 'druga', 'trzecia'];
 
         return (
             <div>
                 {/*w poniższy sposób przekażemy props title i subtitile*/}
                 <Header title={title} subtitle={subtitle} />
-                <Action/>
-                <Options options={options} />
+                <Action hasOptions={this.state.options.length > 0} />
+                <Options options={this.state.options} />
                 <AddOption/>
             </div>
         )
@@ -56,7 +62,12 @@ class Action extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.handlePick}>What should i do</button>
+                <button
+                    onClick={this.handlePick}
+                    disabled={!this.props.hasOptions}
+                >
+                    What should i do
+                </button>
             </div>
         )
     }

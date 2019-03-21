@@ -42,6 +42,11 @@ class Counter extends React.Component {
                 count: 0
             }
         });
+
+        // Jest jeszcze starsza opcja w nadpsianiu state, w którj nadpisuejsz po prostu obiekt. Raczej będziemy się trzymać powyższej opcji, czyli do argumentu setState, wstawimy funkcję.
+        // this.setState({
+        //     count: 0
+        // });
     }
 
     render() {
