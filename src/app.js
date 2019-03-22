@@ -18,9 +18,41 @@
 class IndecisionApp extends React.Component {
     constructor(props) {
         super(props);
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+        this.handlePick = this.handlePick.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
         this.state = {
-            options : ['pierwsza1', 'druga', 'trzecia']
+            options : []
         }
+    }
+
+    handlePick() {
+        const randomNum = Math.floor(Math.random() * this.state.options.length);
+        const option = this.state.options[randomNum];
+        alert(option);
+    }
+
+    handleDeleteOptions() {
+        this.setState(()=> {
+            return {
+                options: []
+            }
+        });
+    }
+
+    handleAddOption(option) {
+        // Walidacja
+        if (!option) {
+            return 'Enter valid value to add item';
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'This option already exsist';
+        }
+
+        this.setState((prevState)=> {
+            return {
+                options: prevState.options.concat(option)
+            };
+        });
     }
 
     render() {
@@ -31,9 +63,19 @@ class IndecisionApp extends React.Component {
             <div>
                 {/*w poniższy sposób przekażemy props title i subtitile*/}
                 <Header title={title} subtitle={subtitle} />
-                <Action hasOptions={this.state.options.length > 0} />
-                <Options options={this.state.options} />
-                <AddOption/>
+                <Action
+                    handlePick = {this.handlePick}
+                    hasOptions = {this.state.options.length > 0}
+                />
+                <Options
+                    options={this.state.options}
+
+                    // Ponieważ button do odpalenia poniższej metody nie istnieje Options, to dodamy teraz nowy props, do ktorego przypiszemy metodę, którą zdefiniwoaliśmy poniżej
+                    handleDeleteOptions = {this.handleDeleteOptions}
+                />
+                <AddOption
+                    handleAddOption={this.handleAddOption}
+                />
             </div>
         )
     }
@@ -54,16 +96,12 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-    // Teraz tutaj utworzymy metodę
-    handlePick() {
-        alert('Halnde pick');
-    }
 
     render() {
         return (
             <div>
                 <button
-                    onClick={this.handlePick}
+                    onClick={this.props.handlePick}
                     disabled={!this.props.hasOptions}
                 >
                     What should i do
@@ -74,22 +112,15 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleRemoveAll = this.handleRemoveAll.bind(this);
-    }
-
-    handleRemoveAll() {
-        alert('handle remove all');
-        console.log(this.props.options)
-    }
     render() {
         return (
             <div>
                 {/*binda mozesz użyc poniżej np:*/}
                 {/*onClick={this.handleRemoveAll.bind(this)}*/}
                 {/*ale nie jest to najelpszy sposób, lepiej w constructorze to zrobic*/}
-                <button onClick={this.handleRemoveAll}>Remove all</button>
+
+                {/* Odwołujemy się do props, bo tam mamy odwołanie do anszej metody handleDeleteOptions*/}
+                <button onClick={this.props.handleDeleteOptions}>Remove all</button>
                 {
                     this.props.options.map((option)=> {
                         // return <p key={option}>{option}</p>;
@@ -113,21 +144,31 @@ class Option extends React.Component {
 
 
 class AddOption extends React.Component {
-    handleAddOption(e) {
+    constructor(props) {
+        super(props);
+        this.handleAddOptionInsideThisClass = this.handleAddOptionInsideThisClass.bind(this);
+        this.state = {
+            error: undefined
+        };
+    }
+    handleAddOptionInsideThisClass(e) {
         e.preventDefault();
 
         // trim() - jest do usunięcia niepotrzebnych spacji
         const option = e.target.elements.option.value.trim();
+        const error = this.props.handleAddOption(option);
 
-        if (option) {
-            alert(option);
-        }
+        this.setState(()=> {
+            return {error:error}
+        })
+
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.handleAddOption}>
+                {this.state.error && <p>{this.state.error}</p>}
+                <form onSubmit={this.handleAddOptionInsideThisClass}>
                     <input type="text" name="option" />
                     <button>Add Option</button>
                 </form>
