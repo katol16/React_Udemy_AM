@@ -22,7 +22,7 @@ class IndecisionApp extends React.Component {
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
         this.state = {
-            options : []
+            options : props.options
         }
     }
 
@@ -56,13 +56,12 @@ class IndecisionApp extends React.Component {
     }
 
     render() {
-        const title = 'Indecision';
         const subtitle = 'Put your life in hands of computer';
 
         return (
             <div>
                 {/*w poniższy sposób przekażemy props title i subtitile*/}
-                <Header title={title} subtitle={subtitle} />
+                <Header subtitle={subtitle} />
                 <Action
                     handlePick = {this.handlePick}
                     hasOptions = {this.state.options.length > 0}
@@ -81,66 +80,123 @@ class IndecisionApp extends React.Component {
     }
 }
 
+IndecisionApp.defaultProps = {
+    options: ['ds']
+};
+
 // Dla Reacta jest ważne, żeby klasa była z dużej litery, inaczej się nie wyrenderuje
-class Header extends React.Component {
-    // W React.Component musisz coś wyrenderować
-    render() {
-        return (
-            <div>
-                {/* W Poniższy sposób pobierzemy propsa*/}
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle}</h2>
-            </div>
-        )
-    }
+
+const Header = (props)=> {
+    return (
+        <div>
+            {/* W Poniższy sposób pobierzemy propsa*/}
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>
+    );
+};
+Header.defaultProps = {
+  title: 'Indecison'
+};
+// poniżej to samo tylko jako class based component
+// class Header extends React.Component {
+//     // W React.Component musisz coś wyrenderować
+//     render() {
+//         return (
+//             <div>
+//                 {/* W Poniższy sposób pobierzemy propsa*/}
+//                 <h1>{this.props.title}</h1>
+//                 <h2>{this.props.subtitle}</h2>
+//             </div>
+//         )
+//     }
+// }
+
+const Action = (props) => {
+    return (
+        <div>
+            <button
+                onClick={props.handlePick}
+                disabled={!props.hasOptions}
+            >
+                What should i do
+            </button>
+        </div>
+    );
+};
+// poniżej to samo tylko jako class based component
+// class Action extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 <button
+//                     onClick={this.props.handlePick}
+//                     disabled={!this.props.hasOptions}
+//                 >
+//                     What should i do
+//                 </button>
+//             </div>
+//         )
+//     }
+// }
+
+const Options = (props)=> {
+    return (
+        <div>
+            {/*binda mozesz użyc poniżej np:*/}
+            {/*onClick={this.handleRemoveAll.bind(this)}*/}
+            {/*ale nie jest to najelpszy sposób, lepiej w constructorze to zrobic*/}
+
+            {/* Odwołujemy się do props, bo tam mamy odwołanie do anszej metody handleDeleteOptions*/}
+            <button onClick={props.handleDeleteOptions}>Remove all</button>
+            {
+                props.options.map((option)=> {
+                    // return <p key={option}>{option}</p>;
+                    return <Option key={option} optionText={option}></Option>;
+                })
+            }
+        </div>
+    )
 }
+// poniżej to samo tylko jako class based component
+// class Options extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 {/*binda mozesz użyc poniżej np:*/}
+//                 {/*onClick={this.handleRemoveAll.bind(this)}*/}
+//                 {/*ale nie jest to najelpszy sposób, lepiej w constructorze to zrobic*/}
+//
+//                 {/* Odwołujemy się do props, bo tam mamy odwołanie do anszej metody handleDeleteOptions*/}
+//                 <button onClick={this.props.handleDeleteOptions}>Remove all</button>
+//                 {
+//                     this.props.options.map((option)=> {
+//                         // return <p key={option}>{option}</p>;
+//                         return <Option key={option} optionText={option}></Option>;
+//                     })
+//                 }
+//             </div>
+//         )
+//     }
+// }
 
-class Action extends React.Component {
-
-    render() {
-        return (
-            <div>
-                <button
-                    onClick={this.props.handlePick}
-                    disabled={!this.props.hasOptions}
-                >
-                    What should i do
-                </button>
-            </div>
-        )
-    }
-}
-
-class Options extends React.Component {
-    render() {
-        return (
-            <div>
-                {/*binda mozesz użyc poniżej np:*/}
-                {/*onClick={this.handleRemoveAll.bind(this)}*/}
-                {/*ale nie jest to najelpszy sposób, lepiej w constructorze to zrobic*/}
-
-                {/* Odwołujemy się do props, bo tam mamy odwołanie do anszej metody handleDeleteOptions*/}
-                <button onClick={this.props.handleDeleteOptions}>Remove all</button>
-                {
-                    this.props.options.map((option)=> {
-                        // return <p key={option}>{option}</p>;
-                        return <Option key={option} optionText={option}></Option>;
-                    })
-                }
-            </div>
-        )
-    }
-}
-
-class Option extends React.Component {
-    render() {
-        return (
-            <div>
-                {this.props.optionText}
-            </div>
-        )
-    }
-}
+const Option = (props) => {
+    return (
+        <div>
+            {props.optionText}
+        </div>
+    );
+};
+// poniżej to samo tylko jako class based component
+// class Option extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 {this.props.optionText}
+//             </div>
+//         )
+//     }
+// }
 
 
 class AddOption extends React.Component {
@@ -178,3 +234,29 @@ class AddOption extends React.Component {
 }
 
 ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+
+// PROPS
+//     - An object
+//     - Can be used when rendering
+//     - Changes (from above) cause re-renders
+//     - Comes from above
+//     - Can't be changed by component itself
+//
+// STATE
+//     - An object
+//     - Can be used when rendering
+//     - Changes cause re-renders
+//     - Defined in component itself
+//     - Can be changed by component itself
+//
+
+// stateless functional components
+// const User = (props) => {
+//     return (
+//         <div>
+//             <p>Name: {props.name}</p>
+//             <p>Age: {props.age}</p>
+//         </div>
+//     );
+// };
+// ReactDOM.render(<User name="Karol" age={26} />, document.getElementById('app'));
