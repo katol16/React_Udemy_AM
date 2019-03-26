@@ -27,6 +27,37 @@ class IndecisionApp extends React.Component {
         }
     }
 
+    // Lifecycle methods - dostępne są na class based component a nie na functional components
+    componentDidMount() {
+        console.log('component did mount');
+        try {
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+
+            if (options) {
+                // this.setState(()=> ({ options: options }));
+                // poniżej zapis skrócony
+                this.setState(()=> ({ options }));
+            }
+        } catch (e) {
+            // Do nothing at all
+        }
+    }
+
+    // componentDidUpdate - odpali się kiedy komponent zostanie zmieniony, gdy np. zmieni się props lub state
+    // W tej metodzie jako argumentu możemy podać np: (prevProps, prevState)
+    componentDidUpdate(prevProps, prevState) {
+        console.log('component did update');
+        if (prevState.options.length !== this.state.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
+    }
+
+    componentWillUnmount() {
+        console.log('component will unmount');
+    }
+
     handlePick() {
         const randomNum = Math.floor(Math.random() * this.state.options.length);
         const option = this.state.options[randomNum];
@@ -162,6 +193,7 @@ const Options = (props)=> {
 
             {/* Odwołujemy się do props, bo tam mamy odwołanie do anszej metody handleDeleteOptions*/}
             <button onClick={props.handleDeleteOptions}>Remove all</button>
+            {props.options.length === 0 && <p>Please add an option to get started!</p>}
             {
                 props.options.map((option)=> {
                     // return <p key={option}>{option}</p>;
@@ -244,6 +276,9 @@ class AddOption extends React.Component {
             return {error:error}
         })
 
+        if (!error) {
+            e.target.elements.option.value = '';
+        }
     }
 
     render() {
@@ -286,3 +321,11 @@ ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
 //     );
 // };
 // ReactDOM.render(<User name="Karol" age={26} />, document.getElementById('app'));
+
+// Działania dostępne na localStorage
+// localStorage.setItem("key","value");
+// localStorage.getItem("key");
+// localStorage.removeItem("key");
+
+// Dodatkowo warto wiedzieć, że jak zrobisz tak:
+// localStorage.setItem("age",26); - to ten number 26, zapisze się jako string! Generalnie localstorage działą tylko ze stringami
