@@ -10,6 +10,32 @@ class Counter extends React.Component {
             count: 0
         };
     }
+
+    componentDidMount() {
+        // console.log('component did mount');
+        // this.setState(()=> {
+        //     return {
+        //         count: parseInt(localStorage.getItem("count" ), 10)
+        //     }
+        // });
+        //
+        // Poniżej jak w kursie ziomek to zrobił
+
+        const stringCount = localStorage.getItem('count');
+        const count = parseInt(stringCount, 10);
+
+        if (!isNaN(count)) {
+            this.setState(() => ({count}));
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log('component did update');
+        if (prevState.count !== this.state.count) {
+            localStorage.setItem('count', this.state.count);
+        }
+    }
+
     handleAddOne() {
         // w poniższy sposób zminimy state, ale nie zrobimy re renderingu
         // this.state.count = this.state.count + 1;

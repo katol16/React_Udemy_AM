@@ -1,3 +1,8 @@
+// Po ogarnieciu instalacji babela i yarna loklanie a nie globalnie, apke uruchamaisz za pomocą:
+// yarn run serve
+// oraz
+// yarn run build
+
 // Poniżej przykłąd demonstrujący działanie bind, keidy tego używamy itd.
 // const obj = {
 //     name: 'Vikram',
@@ -23,7 +28,7 @@ class IndecisionApp extends React.Component {
         this.handleAddOption = this.handleAddOption.bind(this);
         this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.state = {
-            options : props.options
+            options : []
         }
     }
 
@@ -48,7 +53,7 @@ class IndecisionApp extends React.Component {
     // W tej metodzie jako argumentu możemy podać np: (prevProps, prevState)
     componentDidUpdate(prevProps, prevState) {
         console.log('component did update');
-        if (prevState.options.length !== this.state.length) {
+        if (prevState.options.length !== this.state.options.length) {
             const json = JSON.stringify(this.state.options);
             localStorage.setItem('options', json);
         }
@@ -124,9 +129,9 @@ class IndecisionApp extends React.Component {
     }
 }
 
-IndecisionApp.defaultProps = {
-    options: ['ds']
-};
+// IndecisionApp.defaultProps = {
+//     options: ['ds']
+// };
 
 // Dla Reacta jest ważne, żeby klasa była z dużej litery, inaczej się nie wyrenderuje
 

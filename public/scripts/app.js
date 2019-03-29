@@ -8,6 +8,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Po ogarnieciu instalacji babela i yarna loklanie a nie globalnie, apke uruchamaisz za pomocą:
+// yarn run serve
+// oraz
+// yarn run build
+
 // Poniżej przykłąd demonstrujący działanie bind, keidy tego używamy itd.
 // const obj = {
 //     name: 'Vikram',
@@ -38,12 +43,52 @@ var IndecisionApp = function (_React$Component) {
         _this.handleAddOption = _this.handleAddOption.bind(_this);
         _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
         _this.state = {
-            options: props.options
+            options: []
         };
         return _this;
     }
 
+    // Lifecycle methods - dostępne są na class based component a nie na functional components
+
+
     _createClass(IndecisionApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            console.log('component did mount');
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+
+                if (options) {
+                    // this.setState(()=> ({ options: options }));
+                    // poniżej zapis skrócony
+                    this.setState(function () {
+                        return { options: options };
+                    });
+                }
+            } catch (e) {
+                // Do nothing at all
+            }
+        }
+
+        // componentDidUpdate - odpali się kiedy komponent zostanie zmieniony, gdy np. zmieni się props lub state
+        // W tej metodzie jako argumentu możemy podać np: (prevProps, prevState)
+
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            console.log('component did update');
+            if (prevState.options.length !== this.state.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+            }
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            console.log('component will unmount');
+        }
+    }, {
         key: 'handlePick',
         value: function handlePick() {
             var randomNum = Math.floor(Math.random() * this.state.options.length);
@@ -124,9 +169,9 @@ var IndecisionApp = function (_React$Component) {
     return IndecisionApp;
 }(React.Component);
 
-IndecisionApp.defaultProps = {
-    options: ['ds']
-};
+// IndecisionApp.defaultProps = {
+//     options: ['ds']
+// };
 
 // Dla Reacta jest ważne, żeby klasa była z dużej litery, inaczej się nie wyrenderuje
 
@@ -201,6 +246,11 @@ var Options = function Options(props) {
             'button',
             { onClick: props.handleDeleteOptions },
             'Remove all'
+        ),
+        props.options.length === 0 && React.createElement(
+            'p',
+            null,
+            'Please add an option to get started!'
         ),
         props.options.map(function (option) {
             // return <p key={option}>{option}</p>;
@@ -288,6 +338,10 @@ var AddOption = function (_React$Component2) {
             this.setState(function () {
                 return { error: error };
             });
+
+            if (!error) {
+                e.target.elements.option.value = '';
+            }
         }
     }, {
         key: 'render',
@@ -344,3 +398,11 @@ ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementByI
 //     );
 // };
 // ReactDOM.render(<User name="Karol" age={26} />, document.getElementById('app'));
+
+// Działania dostępne na localStorage
+// localStorage.setItem("key","value");
+// localStorage.getItem("key");
+// localStorage.removeItem("key");
+
+// Dodatkowo warto wiedzieć, że jak zrobisz tak:
+// localStorage.setItem("age",26); - to ten number 26, zapisze się jako string! Generalnie localstorage działą tylko ze stringami
