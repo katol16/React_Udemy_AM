@@ -26,3 +26,10 @@ export { square, add, substract as default };
 // export default substract;
 // lub
 // export default (a,b) => a-b;
+
+// Setting up Babel with webpack
+
+// loader
+// Instalujemy w projekcie:
+// babel-core pozwala odpalać babela przez webpacka
+// yarn add babel-core@6.25.0 babel-loader@7.1.1

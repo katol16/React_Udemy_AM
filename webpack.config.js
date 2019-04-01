@@ -14,5 +14,18 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'public'),
         filename: 'bundle.js'
-    }
+    },
+    // loader
+    module: {
+        rules: [{
+            loader: 'babel-loader',
+            test: /\.js$/,
+            exclude: /node_modules/
+        }]
+    },
+    // O opcjach webpacka najlepiej poczytać w dokumentacji
+    // To poniżej jest do mapowania błędów
+    devtool: 'cheap-module-eval-source-map'
 };
+
+// UWAGA! Pamiętaj, żeby restartować webpacka po wrpwoadzonych zmianach bo się wyjebie!

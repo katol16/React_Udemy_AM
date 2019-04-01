@@ -31,6 +31,44 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import IndecisionApp from './IndecisionApp'
 
-const template = React.createElement('p', {}, 'test');
-ReactDOM.render(template, document.getElementById('app'));
+// const template = <p>This is JSX from webpack</p>;
+// ReactDOM.render(template, document.getElementById('app'));
+
+
+ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+
+// PROPS
+//     - An object
+//     - Can be used when rendering
+//     - Changes (from above) cause re-renders
+//     - Comes from above
+//     - Can't be changed by component itself
+//
+// STATE
+//     - An object
+//     - Can be used when rendering
+//     - Changes cause re-renders
+//     - Defined in component itself
+//     - Can be changed by component itself
+//
+
+// stateless functional components
+// const User = (props) => {
+//     return (
+//         <div>
+//             <p>Name: {props.name}</p>
+//             <p>Age: {props.age}</p>
+//         </div>
+//     );
+// };
+// ReactDOM.render(<User name="Karol" age={26} />, document.getElementById('app'));
+
+// Działania dostępne na localStorage
+// localStorage.setItem("key","value");
+// localStorage.getItem("key");
+// localStorage.removeItem("key");
+
+// Dodatkowo warto wiedzieć, że jak zrobisz tak:
+// localStorage.setItem("age",26); - to ten number 26, zapisze się jako string! Generalnie localstorage działą tylko ze stringami
