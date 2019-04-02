@@ -36,6 +36,26 @@ import IndecisionApp from './IndecisionApp'
 // const template = <p>This is JSX from webpack</p>;
 // ReactDOM.render(template, document.getElementById('app'));
 
+class OldSyntax {
+    constructor() {
+        this.name = "Mike";
+    }
+    getGreeting() {
+        return `Hi! My name is ${this.name}`
+    }
+}
+
+const oldSyntax = new OldSyntax();
+console.log(oldSyntax);
+
+// Poniżej przedstawimy nowy syntax, dostepny po instalacji i załączeniu pluginu   "plugins": ["transform-class-properties"] w .babelrc
+// Poniiższy przykłąd pozwala pominąć constructor() i całe to bindowanie funkcji w constryuctorze
+class NewSyntax{
+    // tutaj wstawiamy już key:value pairs. Nie uzywasz żadnego var, elt, const - tego bedziemy uzwyac w kursie
+    name = 'Jan';
+}
+const newSyntax = new NewSyntax();
+console.log(newSyntax);
 
 ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
 

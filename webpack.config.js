@@ -25,7 +25,11 @@ module.exports = {
     },
     // O opcjach webpacka najlepiej poczytać w dokumentacji
     // To poniżej jest do mapowania błędów
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'cheap-module-eval-source-map',
+    // devServer
+    devServer: {
+        contentBase: path.join(__dirname, 'public')
+    }
 };
 
 // UWAGA! Pamiętaj, żeby restartować webpacka po wrpwoadzonych zmianach bo się wyjebie!
