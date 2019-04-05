@@ -32,6 +32,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import IndecisionApp from './IndecisionApp'
+// yarn add normalize.css@7.0.0 - za pomocą tego usuniemy predefiniowane style przez przeglądarki
+import 'normalize.css/normalize.css'
+import './styles/styles.scss';
 
 ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
 

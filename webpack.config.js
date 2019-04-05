@@ -21,6 +21,19 @@ module.exports = {
             loader: 'babel-loader',
             test: /\.js$/,
             exclude: /node_modules/
+        },
+        // Do css'a (css-loader i style-loader)
+        // yarn add style-loader@0.18.2 css-loader@0.28.4
+        {
+            // yarn add sass-loader@6.0.6 node-sass@4.5.3
+            // poniższy test załaduje i css i scss
+            test: /\.s?css$/,
+            // use pozwala odpalić kilka laoderów
+            use: [
+                'style-loader',
+                'css-loader',
+                'sass-loader'
+            ]
         }]
     },
     // O opcjach webpacka najlepiej poczytać w dokumentacji

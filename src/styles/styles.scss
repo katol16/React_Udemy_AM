@@ -1,0 +1,5 @@
+// SCSS import
+// Poniżej nie musimy pisać _base.scss, wystarczy samo base
+@import "./base/settings";
+@import "./base/base";
+@import "./components/header";
