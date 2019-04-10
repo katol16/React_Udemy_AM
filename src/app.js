@@ -31,120 +31,52 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import IndecisionApp from './IndecisionApp'
+
+import { BrowserRouter, Route } from "react-router-dom";
+
 // yarn add normalize.css@7.0.0 - za pomocą tego usuniemy predefiniowane style przez przeglądarki
 import 'normalize.css/normalize.css'
 import './styles/styles.scss';
 
-ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+const ExpenseDashboardPage = () => (
+  <div>
+      This is from my dashboard component
+  </div>
+);
 
-// Dodajemy react-modal
-// yarn add react-modal@2.2.2
+const AddDashboardPage = () => (
+    <div>
+        This is from my add expense component
+    </div>
+);
 
+const EditPage = () => (
+    <div>
+        This is Edit
+    </div>
+);
 
-//////////////////////////////
-// Poniżej materiał edukacyjny 1
+const HelpPage = () => (
+    <div>
+        This is Help
+    </div>
+);
 
-// const Layout = (props) => {
-//     return (
-//         <div>
-//             <p>header</p>
-//             {/*{props.content}*/}
-//             {props.children}
-//             <p>footer</p>
-//         </div>
-//     );
-// };
-//
-// // Jeden sposób do przekazania dynamicznie jakiejś części podstrony, w tym wypadku content za pomocą props
-// // ReactDOM.render(<Layout content={props.content} />, document.getElementById('app'));
-// // Kolejny sposób za pomocą props.children
-// ReactDOM.render((
-//     <Layout>
-//         <p>Drugi sposób</p>
-//     </Layout>
-//         ), document.getElementById('app'));
-//
-// // const template = <p>This is JSX from webpack</p>;
-// // ReactDOM.render(template, document.getElementById('app'));
+const routes = (
+  <BrowserRouter>
+      <div>
+          {/*// exact oznacza, ze tylko dla '/' czyli strony głównej wczyta się jedna rzecz, bo generalnei route nie dba co jest dalej po '/' */}
+          <Route exact={true} path='/' component={ExpenseDashboardPage} />
+          <Route path='/create' component={AddDashboardPage} />
+          <Route path='/edit' component={EditPage} />
+          <Route path='/help' component={HelpPage} />
+      </div>
+  </BrowserRouter>
+);
 
+ReactDOM.render(routes, document.getElementById('app'));
 
-//////////////////////////////
-// Poniżej materiał edukacyjny 2
-
-class OldSyntax {
-    constructor() {
-        this.name = "Mike";
-        // this.getGreeting = this.getGreeting.bind(this);
-    }
-    getGreeting() {
-        return `Hi! My name is ${this.name}`
-    }
-}
-
-const oldSyntax = new OldSyntax();
-console.log(oldSyntax);
-
-// Jeśli zrobimy tak jak poniżej, to przez to, ze zapiszemy w zmiennej getGreeting naszą metode, złamiemy "binding"
-const getGreeting = oldSyntax.getGreeting;
-// To poniżej wyjebie błąd
-// Żeby to poniżej zadziałało musimy dać w constructor oldSyntax this.getGreeting = this.getGreeting.bind(this);
-// console.log(getGreeting());
-// a to poniżej zadziała
-console.log(oldSyntax.getGreeting());
-
-// Poniżej przedstawimy nowy syntax, dostepny po instalacji i załączeniu pluginu   "plugins": ["transform-class-properties"] w .babelrc
-// Poniiższy przykład pozwala pominąć constructor() i całe to bindowanie funkcji w constructorze
-class NewSyntax{
-    // tutaj wstawiamy już key:value pairs. Nie uzywasz żadnego var, elt, const - tego bedziemy uzwyac w kursie
-    name = 'Jan';
-    // Tutaj this, będzie wskazywało na "parent object"
-    getGreeting = () => {
-        return `Hi! My name is ${this.name}`
-    }
-}
-const newSyntax = new NewSyntax();
-console.log(newSyntax);
-// W newSyntaz, nie zjebiemy bind, to poniżej zadziała
-const newGetGreeting = newSyntax.getGreeting;
-console.log(newGetGreeting());
-
-// ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
-
-/////////////////////////////////
-// Koniec materiału edukacyjnego
-
-
-// PROPS
-//     - An object
-//     - Can be used when rendering
-//     - Changes (from above) cause re-renders
-//     - Comes from above
-//     - Can't be changed by component itself
-//
-// STATE
-//     - An object
-//     - Can be used when rendering
-//     - Changes cause re-renders
-//     - Defined in component itself
-//     - Can be changed by component itself
-//
-
-// stateless functional components
-// const User = (props) => {
-//     return (
-//         <div>
-//             <p>Name: {props.name}</p>
-//             <p>Age: {props.age}</p>
-//         </div>
-//     );
-// };
-// ReactDOM.render(<User name="Karol" age={26} />, document.getElementById('app'));
-
-// Działania dostępne na localStorage
-// localStorage.setItem("key","value");
-// localStorage.getItem("key");
-// localStorage.removeItem("key");
-
-// Dodatkowo warto wiedzieć, że jak zrobisz tak:
-// localStorage.setItem("age",26); - to ten number 26, zapisze się jako string! Generalnie localstorage działą tylko ze stringami
+// Instalujemy react-router
+// użyjemy dokłądnie react-router-dom, bo to ejst przystosowane do web-app, a react-router, do web i native (wieć wystraczy nam react-router-dom)
+// Generalnie masz 3 rodzaje react-router ( 1: react-router - do wszystkiego, 2: react-router-dom - do web-app, 3: react-router-native - do native-app
+// yarn add react-router-dom@4.2.2

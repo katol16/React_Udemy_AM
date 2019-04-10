@@ -41,7 +41,10 @@ module.exports = {
     devtool: 'cheap-module-eval-source-map',
     // devServer
     devServer: {
-        contentBase: path.join(__dirname, 'public')
+        contentBase: path.join(__dirname, 'public'),
+
+        // To jest po to żeby nam nie wyskakiwał "cannot get" w innych podstronach, (do wszystkich 404, zaserwuje nam index.html)
+        historyApiFallback: true
     }
 };
 
