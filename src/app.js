@@ -31,76 +31,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom";
-
+import AppRouter from './routes/AppRouter';
 // yarn add normalize.css@7.0.0 - za pomocą tego usuniemy predefiniowane style przez przeglądarki
-import 'normalize.css/normalize.css'
+import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
-const ExpenseDashboardPage = () => (
-  <div>
-      This is from my dashboard component
-  </div>
-);
-
-const AddDashboardPage = () => (
-    <div>
-        This is from my add expense component
-    </div>
-);
-
-const EditPage = () => (
-    <div>
-        This is Edit
-    </div>
-);
-
-const HelpPage = () => (
-    <div>
-        This is Help
-    </div>
-);
-
-const Header = () => (
-    <header>
-        <h1>Expensify</h1>
-        <Link to='/edit'>Edit</Link>
-        <br/>
-        {/*// Tu damy NavLinka i skorzystamy z jego możliiwości (activeClassName) */}
-        <NavLink activeClassName="is-active" to='/help' exact={true}>Help</NavLink>
-        <br/>
-        {/*// Tu damy NavLinka, który w tym przypadku zadziałą tak samo jak Link*/}
-        <NavLink to='/create'>Dashboard</NavLink>
-    </header>
-);
-
-// Poniższy komponent będzie wyświetlany, gdy nie znajdzie danej strony, czyli jak ktoś wpiszę cokolwiek po localhost:3030/cokolwiek. Czyli w react router musimy sie zabezpieczyć na przypadek błędu 404
-const NotFoundPage = () => (
-    <div>
-        404! - <a href='/'>Go home (zadziała ten link, ale przeładuje całą strone a tego byśmy nie chcieli)</a>
-        Lepsza metoda<Link to='/'>Go HOME! za pomoca Link, która korzysta z client side Routing i nie będzie przeładowywyać całej strony</Link>
-    </div>
-);
-
-const routes = (
-  <BrowserRouter>
-      <div>
-          <Header />
-          {/*// Potrzebujemy switcha, aby poprawnie uzyskać 404*/}
-          <Switch>
-              {/*// exact oznacza, ze tylko dla '/' czyli strony głównej wczyta się jedna rzecz, bo generalnei route nie dba co jest dalej po '/' */}
-              <Route exact={true} path='/' component={ExpenseDashboardPage} />
-              <Route path='/create' component={AddDashboardPage} />
-              <Route path='/edit' component={EditPage} />
-              <Route path='/help' component={HelpPage} />
-              <Route component={NotFoundPage} />
-          </Switch>
-      </div>
-  </BrowserRouter>
-);
-
-ReactDOM.render(routes, document.getElementById('app'));
+ReactDOM.render(<AppRouter />, document.getElementById('app'));
 
 // Instalujemy react-router
 // użyjemy dokłądnie react-router-dom, bo to ejst przystosowane do web-app, a react-router, do web i native (wieć wystraczy nam react-router-dom)
