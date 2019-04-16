@@ -17,7 +17,8 @@ const AppRouter = () => (
                 {/*// exact oznacza, ze tylko dla '/' czyli strony głównej wczyta się jedna rzecz, bo generalnei route nie dba co jest dalej po '/' */}
                 <Route exact={true} path='/' component={ExpenseDashboardPage} />
                 <Route path='/create' component={AddDashboardPage} />
-                <Route path='/edit' component={EditPage} />
+                {/*Do edit, możemy za pomocą :id rpzekazać dynaminczie jakiś parametr w URL*/}
+                <Route path='/edit/:id' component={EditPage} />
                 <Route path='/help' component={HelpPage} />
                 <Route component={NotFoundPage} />
             </Switch>

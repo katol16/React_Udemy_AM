@@ -4,7 +4,6 @@ import React from "react";
 const Header = () => (
     <header>
         <h1>Expensify</h1>
-        <Link to='/edit'>Edit</Link>
         <br/>
         {/*// Tu damy NavLinka i skorzystamy z jego możliiwości (activeClassName) */}
         <NavLink activeClassName="is-active" to='/help' exact={true}>Help</NavLink>
